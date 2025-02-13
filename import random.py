@@ -45,7 +45,7 @@ def calculate_score(dice, category):
             return 40
         return 0
     elif category == "yatzy":
-        if len(counts) == 1:
+        if len(counts) == 1 and list(counts.values())[0] == 5:
             return 50
         return 0
     elif category == "chance":
@@ -60,11 +60,15 @@ def player_turn():
         roll = roll_dice(kept_dice)
         print("You rolled:", roll)
 
-        keep = input("Enter numbers to keep (comma separated), or press Enter to reroll all: ")
-        if keep:
-            kept_dice = [int(n) for n in keep.split(",") if int(n) in roll]
-        else:
-            kept_dice = []
+        try:
+            keep = input("Enter numbers to keep (comma separated), or press Enter to reroll all: ")
+            if keep:
+                kept_dice = [int(n) for n in keep.split(",") if int(n) in roll]
+            else:
+                kept_dice = []
+        except ValueError:
+            print("Invalid input. Please enter numbers only.")
+            continue
 
         rolls_left -= 1
 
